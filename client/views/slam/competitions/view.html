@@ -1,0 +1,221 @@
+<div class="page page-profile" data-ng-controller="competition-view">
+
+    <header class="profile-header">
+        <div class="row">
+            <ul class="list-inline">
+                <li><a ui-sref="region-view({regionId: competition.region.id})">{{competition.region.name}}</a></li> > 
+                <li>{{competition.title}}</li>
+            </ul>
+            <span class="btn btn-danger pull-right" ng-click="edit(competition.id)">Editar</span>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <img ng-src="http://images.collab-dev.com/300x/smart/slam/{{competition.cover_photo}}" class="img-rounded img-responsive">
+            </div>
+            <div class="col-md-9 col-lg-9">
+                <h2>{{competition.title}}</h2>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <ul class="list-unstyled list-inline">
+                <li><span class="btn" ng-click="showParticipants()"><i class="fa fa-users"></i> Usuarios <span class="text-muted">(63)</span></span></li>
+                <li><span class="btn" ng-click="showVideos()"><i class="fa fa-video-camera"></i> Videos <span class="text-muted">(39)</span></span></li>
+                <li><span class="btn" ng-click="showCups()"><i class="fa fa-bookmark"></i> Copas y Menciones </span> </li>
+            </ul>
+        </div>
+    </header>
+
+
+    <div class="panel panel-default" data-ng-controller="competition-participants" data-ng-if="show_participants">
+        <div class="panel-header">
+            <h2 class="section-header">Participantes</h2>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                                Username
+                            </div></th>
+                            <th><div class="th">
+                                Apellido - Nombre
+                            </div></th>
+                            <th><div class="th">
+                                
+                            </div></th>
+                            <th><div class="th">
+                                <span class="btn btn-primary " ng-click="addParticipant()">Agregar</span>
+                            </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="participant in participants">
+                            <td>{{participant.username}}</td>
+                            <td>{{participant.lastname}} {{participant.name}}</td>
+                            <td></td>
+                            <td><span class="btn btn-primary" ng-click="viewParticipant(participant.id)">Ver</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+
+        </div>
+    </div>
+ 
+
+    <div class="panel panel-default" data-ng-controller="competition-videos" ng-if="show_videos">
+        <div class="panel-header">
+            <h2 class="section-header">Videos</h2>
+            <span class="btn btn-primary pull-right" ng-show="!search_videos" ng-click="showSearch()">Agregar Videos</span>
+        </div>
+        <div class="panel-body">
+            <div class="row" ng-show="search_videos">
+                    <div class="form-group col-md-8">
+                        <label class="sr-only" for="searchinput">Búsqueda Videos</label>
+                        <input type="text" class="form-control col-md-12" id="searchinput" ng-model="query" placeholder="Ingresá palabras claves">
+                    </div>
+                    <span class="btn btn-primary" ng-click="search()">Buscar</span>
+                    <span class="btn btn-default" ng-click="cancelSearch()">Cancelar</span>
+                </form>   
+            </div>
+            <div class="col-md-12" ng-show="search_videos">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="video in videos_result.results" style="margin-bottom: 5px, cursor: pointer;">
+                        <div class="ih-item ih-material">
+                            <a ng-click="addVideo(video)">
+                                <div class="img">
+                                    <img ng-src="{{thumbnail(video)}}" alt="">
+                                </div>
+                                <div class="info">
+                                    <div class="info-mask bg-primary"></div>
+                                    <div class="info-content">
+                                        <div class="info-inner">
+                                            <h3>ID: {{video.id.videoId}}</h3>
+                                            <p>{{video.snippet.description}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>                            
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="video in videos">
+                        <div class="card bg-white">
+                            <div class="card-image">
+                                <img ng-src="{{video.thumb_path}}">
+                                <span class="card-title">{{video.name}}</span>
+                            </div>
+                            <div class="card-content">
+                                {{videos.participants}} 
+                            </div>
+                            <div class="card-action">
+                                <span class="btn btn-primary">Participantes</span>
+                            </div>
+                        </div>            
+                    </div>            
+                </div>            
+            </div>
+
+        </div>
+    </div>
+ 
+    <div class="panel panel-default" data-ng-controller="competition-cups" ng-if="show_cups">
+        <div class="panel-header">
+            <h2 class="section-header">Copas</h2>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                                Username
+                            </div></th>
+                            <th><div class="th">
+                                Apellido - Nombre
+                            </div></th>
+                            <th><div class="th">
+                                
+                            </div></th>
+                            <th><div class="th">
+                                <span class="btn btn-primary " ng-click="addParticipant()">Agregar</span>
+                            </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="participant in participants">
+                            <td>{{participant.username}}</td>
+                            <td>{{participant.lastname}} {{participant.name}}</td>
+                            <td></td>
+                            <td><span class="btn btn-primary" ng-click="viewParticipant(participant.id)">Ver</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="filteredStores.length"
+                                        max-size="4"
+                                        ng-change="select(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+
+        </div>
+    </div>
+ 
+</div>
+
+

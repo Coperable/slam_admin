@@ -3,7 +3,7 @@
 
     angular.module('app.regions')
         .controller('regions-list', ['$scope', '$window', '$state', 'Region', regionsList])
-        .controller('regions-edit', ['$scope', '$stateParams', '$location', 'Region', regionsEdit])
+        .controller('regions-edit', ['$scope', '$stateParams', '$location', 'Region', 'Color', 'Icon', regionsEdit])
         .controller('regions-view', ['$scope', '$window', 'Region', '$location', '$state', '$stateParams', regionsView]);
 
     function regionsList($scope, $window, $state, Region) {
@@ -30,8 +30,21 @@
 
     }
 
-    function regionsEdit($scope, $stateParams, $location, Region) {
+    function regionsEdit($scope, $stateParams, $location, Region, Color, Icon) {
         $scope.region = new Region({});
+
+        Color.query(function(data) {
+            $scope.colors = data;
+        });
+
+        Icon.query(function(data) {
+            $scope.icons = _.sortBy(_.filter(data, function(item) {
+                return item.is_region;
+            }),
+            function(icon) {
+                return icon.code; 
+            });
+        });
 
         $scope.canSubmit = function() {
             return $scope.region_form.$valid;

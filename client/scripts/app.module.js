@@ -38,6 +38,7 @@
         ,'app.account'
         ,'app.regions'
         ,'app.users'
+        ,'app.sliders'
         ,'app.participants'
         ,'app.competitions'
     ]);

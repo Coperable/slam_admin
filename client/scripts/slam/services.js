@@ -16,6 +16,13 @@ angular.module('app.services', [])
         }
     });
 }])
+.factory('Slider',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/sliders/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('User',['$resource', 'api_host', function($resource, api_host){
     return $resource(api_host+'/api/users/:id', { id:'@id' }, {
         update: {
@@ -125,7 +132,7 @@ angular.module('app.services', [])
         listen: function(callback) {
 
             console.log('Account: set list for callback');
-            $rootScope.$on("account", function(event, newValue) {
+            $rootScope.$on("account", function(event, newValue, oldValue) {
                 if(newValue) {
                     console.log('Account: listening calling callback');
                     callback(newValue);
@@ -133,6 +140,20 @@ angular.module('app.services', [])
             });
         }
     };
+}])
+.factory('Icon',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/icons/:id', { id:'@id' }, {
+        update: {
+            method: 'POST'
+        }
+    });
+}])
+.factory('Color',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/colors/:id', { id:'@id' }, {
+        update: {
+            method: 'POST'
+        }
+    });
 }])
 .factory('User',['$resource', 'api_host', function($resource, api_host){
     return $resource(api_host+'/api/users/:id', { id:'@id' }, {

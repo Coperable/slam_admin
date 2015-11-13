@@ -19,12 +19,21 @@
                             <textarea class="form-control" rows="10" required data-ng-model="region.description"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Color</label>
-                            <input  type="text" class="form-control" placeholder="Código del color, ej: #e5e5e5, or #fff" required data-ng-pattern="/^#(?:[0-9a-fA-F]{3}){1,2}$/" data-ng-model="region.color" >
+                            <label for="colors">Color</label>
+                            <!--input  type="text"  placeholder="Código del color, ej: #e5e5e5, or #fff" required data-ng-pattern="/^#(?:[0-9a-fA-F]{3}){1,2}$/" data-ng-model="region.color" -->
+                            <select name="colors" 
+                                class="form-control"
+                                ng-options="color.code for color in colors track by color.id"
+                                ng-model="region.color">
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">Icono</label>
-                            <input type="text" class="form-control" required data-ng-model="region.icon" >
+                            <select name="colors" 
+                                class="form-control"
+                                ng-options="icon.code for icon in icons track by icon.id"
+                                ng-model="region.icon">
+                            </select>
                         </div>
                         <button type="submit"
                                 ui-wave

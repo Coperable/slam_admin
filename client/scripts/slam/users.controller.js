@@ -4,7 +4,7 @@
     angular.module('app.users')
         .controller('users-list', ['$scope', '$window', '$state', 'User', usersList])
         .controller('users-edit', ['$scope', '$state', 'User', usersEdit])
-        .controller('users-view', ['$scope', '$window', 'User', '$location', '$state', '$stateParams', 'Role', 'Region', usersView]);
+        .controller('users-view', ['$scope', '$window', 'User', '$location', '$state', '$stateParams', '$http', 'logger', 'Role', 'Region', 'Account', 'api_host', usersView]);
 
     function usersList($scope, $window, $state, User) {
         $scope.users = [];
@@ -46,8 +46,9 @@
         };
     }
 
-    function usersView($scope, $window, User, $location, $state, $stateParams, Role, Region) {
+    function usersView($scope, $window, User, $location, $state, $stateParams, $http, logger, Role, Region, Account, api_host) {
         $scope.user = {};
+        $scope.account = Account;
         $scope.competitions = [];
         $scope.roles = [];
         $scope.regions = [];
@@ -93,12 +94,39 @@
 
 
 
-        $scope.createCompetition = function() {
-            console.log('create competition');
-            $state.go('competition-new', {
-                userId: $scope.user.id
+        $scope.saveRoles = function() {
+            var rolesToAssign = _.filter($scope.roles, function(rol) {
+                return rol.assigned;
             }); 
+            $http.post(api_host+'/api/users/assign/roles', {
+                userId: $scope.user.id,
+                roles: rolesToAssign
+            }).success(function(data) {
+                logger.logSuccess("Roles asignados"); 
+            });
+
         };
+
+        $scope.saveRegions = function() {
+            var regionsToAssign = _.filter($scope.regions, function(region) {
+                return region.assigned;
+            }); 
+            $http.post(api_host+'/api/users/assign/regions', {
+                userId: $scope.user.id,
+                regions: regionsToAssign 
+            }).success(function(data) {
+                logger.logSuccess("Regiones asignadas"); 
+            });
+
+        };
+
+        $scope.revertRoles = function() {
+            $scope.fetchRoles();
+        }
+
+        $scope.revertRegions = function() {
+            $scope.fetchRegions();
+        }
 
     }
 

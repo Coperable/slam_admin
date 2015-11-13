@@ -9,6 +9,7 @@
             routes = [
                 'dashboard',
                 'slam/regions/list',
+                'slam/sliders/list',
                 'slam/users/list',
                 'slam/participants/list',
                 'slam/users/edit',
@@ -81,6 +82,20 @@
             .state('region-edit', {
                 url: '/region-edit/:regionId',
                 templateUrl: 'views/slam/regions/edit.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('slider-new', {
+                url: '/slider-new',
+                templateUrl: 'views/slam/sliders/edit.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('slider-edit', {
+                url: '/slider-edit/:sliderId',
+                templateUrl: 'views/slam/sliders/edit.html',
                 resolve: {
                     loginRequired: loginRequired
                 }

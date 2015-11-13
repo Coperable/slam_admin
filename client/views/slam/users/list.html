@@ -17,16 +17,15 @@
                             <th><div class="th">
                                 Apellido - Nombre
                             </div></th>
-                            <th><div class="th">
-                            </div></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr data-ng-repeat="user in users">
                             <td>{{user.username}}</td>
                             <td>{{user.name}} {{user.lastname}}</td>
-                            <td><span class="btn btn-primary" ng-click="view(user.id)">Ver</span></td>
-                            <td><span class="btn btn-default" ng-click="edit(user.id)">Editar</span></td>
+                            <td><span class="btn btn-primary block-center" ng-click="view(user.id)">Ver</span></td>
+                            <!--td><span class="btn btn-default" ng-click="edit(user.id)">Editar</span></td-->
                         </tr>
                     </tbody>
                 </table>

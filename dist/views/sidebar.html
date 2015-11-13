@@ -11,11 +11,12 @@
         <li ng-if="hasRole('create_region')" ui-wave><a href="#/slam/regions/list"> <i class="imd imd-place"></i><span data-translate="Regiones"></span> </a></li>
         <li ng-if="hasRole('crud_user')" ui-wave><a href="#/slam/users/list"> <i class="imd imd-contacts"></i><span data-translate="Usuarios"></span> </a></li>
         <li ng-if="hasRole('crud_user')" ui-wave><a href="#/slam/participants/list"> <i class="imd imd-contacts"></i><span data-translate="Participantes"></span> </a></li>
-        <!--li ui-wave><a href="#/competitions"> <i class="imd imd-mms"></i><span data-translate="COMPETITIONS"></span> </a></li-->
+
         <li ui-wave ng-repeat="region in account.regions"><a ng-click="viewRegion(region.id)"> <i class="imd imd-place"></i><span> {{region.name}}</span> </a></li>
 
+        <li ng-if="hasRole('edit_site')" ui-wave><a href="#/slam/sliders/list"> <i class="imd imd-contacts"></i><span data-translate="Sliders"></span> </a></li>
 
-        <!--
+
         <li ui-wave>
             <a href="#/ui"><i class="imd imd-work"></i><span data-translate="UI_KIT"></span></a>
             <ul>
@@ -69,6 +70,5 @@
                 <li><a href="#/charts/charts"><i class="fa fa-angle-right"></i>Other <span data-translate="CHARTS"></span></a></li>
             </ul>
         </li>
-        -->
     </ul>
 </div>

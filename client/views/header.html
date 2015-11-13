@@ -7,7 +7,7 @@
                      'bg-success': ['13','23','33'].indexOf(admin.skin) >= 0,
                      'bg-info-alt': ['14','24','34'].indexOf(admin.skin) >= 0,
                      'bg-warning': ['15','25','35'].indexOf(admin.skin) >= 0,
-                     'bg-danger': ['16','26','36'].indexOf(admin.skin) >= 0,
+                     'bg-danger': ['16','26','36'].indexOf(admin.skin) >= 0
                     }">
         <a href="#/">
             <span class="logo-icon imd imd-dashboard"></span>
@@ -35,7 +35,7 @@
 
             <li class="dropdown text-normal nav-profile"  dropdown is-open="status.isopenProfile">
                 <a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled" ui-wave>
-                    <img ng-src="/images/{{profile.photo}}" alt="" class="img-circle img30_30">
+                    <img ng-src="http://images.collab-dev.com/31x/smart/slam/profiles/{{profile.photo}}" alt="" class="img-circle img30_30">
                     <span class="hidden-xs">
                         <span data-translate="{{profile.username}}"></span>
                     </span>
@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#/pages/profile">
+                        <a href="#/user-view/{{profile.id}}">
                             <i class="imd imd-person"></i>
                             <span data-translate="MY_PROFILE"></span>
                         </a>

@@ -1,9 +1,9 @@
-<div class="page page-table" data-ng-controller="regions-list">
+<div class="page page-table" data-ng-controller="sliders-list">
 
     <div class="row ui-section">
         <div class="col-lg-8 clearfix">
-            <h2 class="section-header">Regiones</h2>
-            <a ui-sref="region-new" class="btn btn-danger pull-right">Crear</a>
+            <h2 class="section-header">Sliders</h2>
+            <a ui-sref="slider-new" class="btn btn-danger pull-right">Crear</a>
         </div>
         <div class="col-md-12">
             <section class="panel panel-default table-dynamic">
@@ -12,22 +12,23 @@
                     <thead>
                         <tr>
                             <th><div class="th">
-                                Nombre
+                                Titulo
                             </div></th>
                             <th><div class="th">
-                                Descripción
+                                Tipo
                             </div></th>
                             <th><div class="th">
                             </div></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat="region in regions" style="color:{{region.color}}" >
-                            <td>{{region.name}}</td>
-                            <td>{{region.description}}</td>
+                        <tr data-ng-repeat="slider in sliders" style="color:{{slider.color}}" >
+                            <td>{{slider.title}}</td>
+                            <td>{{slider.type}}</td>
                             <td>
-                                <span class="btn btn-primary" ng-click="view(region.id)">Ver</span>
-                                <span class="btn btn-default" ng-click="edit(region.id)">Editar</span>
+                                <span class="btn btn-primary" ng-click="view(slider.id)">Ver</span>
+                                <span class="btn btn-default" ng-click="edit(slider.id)">Editar</span>
+                                <span class="btn btn-danger" ng-click="remove(slider.id)">Eliminar</span>
                             </td>
                         </tr>
                     </tbody>
@@ -63,4 +64,5 @@
     </div>
     
 </div>
+
 

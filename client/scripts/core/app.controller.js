@@ -41,32 +41,6 @@
             skin: '26'                                      // 11,12,13,14,15,16; 21,22,23,24,25,26; 31,32,33,34,35,36
         };
 
-        $scope.$watch('admin', function(newVal, oldVal) {
-            // if (newVal.menu !== oldVal.menu || newVal.layout !== oldVal.layout) {
-            //     $rootScope.$broadcast('layout:changed');
-            // }
-
-            if (newVal.menu === 'horizontal' && oldVal.menu === 'vertical') {
-                $rootScope.$broadcast('nav:reset');
-            }
-            if (newVal.fixedHeader === false && newVal.fixedSidebar === true) {
-                if (oldVal.fixedHeader === false && oldVal.fixedSidebar === false) {
-                    $scope.admin.fixedHeader = true;
-                    $scope.admin.fixedSidebar = true;
-                }
-                if (oldVal.fixedHeader === true && oldVal.fixedSidebar === true) {
-                    $scope.admin.fixedHeader = false;
-                    $scope.admin.fixedSidebar = false;
-                }
-            }
-            if (newVal.fixedSidebar === true) {
-                $scope.admin.fixedHeader = true;
-            }
-            if (newVal.fixedHeader === false) {
-                $scope.admin.fixedSidebar = false;
-            }
-        }, true);
-
         $scope.color = {
             primary:    '#3F51B5',
             success:    '#4CAF50',

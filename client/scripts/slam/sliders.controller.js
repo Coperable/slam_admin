@@ -96,7 +96,7 @@ angular.module('app.sliders')
             $scope.slider.event_date = date; 
         }); 
 
-    }
+    };
 
 
 
@@ -147,7 +147,7 @@ angular.module('app.sliders')
 
 
 
-}])
+}]);
 })(); 
 
 

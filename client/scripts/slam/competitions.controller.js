@@ -105,7 +105,7 @@ angular.module('app.competitions')
         $scope.today();
 
 
-        $('#torneo_event_date').bootstrapMaterialDatePicker({  
+        jQuery('#torneo_event_date').bootstrapMaterialDatePicker({  
             format : 'DD MM YYYY HH:mm',  
             minDate : new Date(), 
             currentDate: $scope.event_date,
@@ -114,7 +114,7 @@ angular.module('app.competitions')
             $scope.torneo.event_date = date; 
         }); 
 
-    }
+    };
 
 
 
@@ -218,7 +218,7 @@ angular.module('app.competitions')
 
 
 }])
-.controller('competition-participants', ['$scope', 'Competition', function($scope, Competition) {
+.controller('competition-participants', ['$scope', '$state', function($scope, $state) {
     $scope.participants = [];
 
     $scope.viewParticipant = function(id) {
@@ -231,8 +231,6 @@ angular.module('app.competitions')
     $scope.addParticipant = function() {
 
     };
-    console.log('competition participants');
-
 
 }])
 .controller('competition-videos', ['$scope', '$http', '$sce', 'api_host', 'Competition', function($scope, $http, $sce, api_host, Competition) {

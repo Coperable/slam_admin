@@ -166,7 +166,11 @@
                 options: {
                     jshintrc: ".jshintrc"
                 },
-                all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/**/*.js"]
+                all: [
+                    "Gruntfile.js", 
+                    "<%= yeoman.app %>/scripts/slam/**/*.js",
+                    "<%= yeoman.app %>/scripts/core/**/*.js"
+                ]
             },
             compass: {
                 options: {

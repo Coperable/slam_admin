@@ -122,11 +122,11 @@
 
         $scope.revertRoles = function() {
             $scope.fetchRoles();
-        }
+        };
 
         $scope.revertRegions = function() {
             $scope.fetchRegions();
-        }
+        };
 
     }
 

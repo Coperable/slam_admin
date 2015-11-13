@@ -20,7 +20,7 @@
                 'charts/charts', 'charts/flot', 'charts/chartjs',
                 'pages/404', 'pages/500', 'pages/blank', 'pages/forgot-password', 'pages/invoice', 'pages/lock-screen', 'pages/profile', 'pages/signin', 'pages/signup',
                 'app/calendar'
-            ]
+            ];
 
             setRoutes = function(route) {
                 var config, url;
@@ -143,10 +143,12 @@
                 }
             });
 
+/*
             $urlRouterProvider
                 .when('/login', '/login')
                 .when('/', '/dashboard')
                 .otherwise('/dashboard');
+*/
 
 
             function skipIfLoggedIn($q, $auth) {

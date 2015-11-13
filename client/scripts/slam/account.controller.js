@@ -57,46 +57,38 @@ angular.module('app.account')
     };
 
 }])
-.controller('session-bar-controller', ['$scope', '$location', 'Account', sessionBarController])
-.controller('signup-controller', ['$scope', '$window', 'Account', singup])
-.controller('logout-controller', ['$scope', '$window', 'Account', logout]);
-
-function singup($scope, $window, Account) {
-
-}
-
-function logout($scope, $window, Account) {
-
-}
+.controller('session-bar-controller', ['$scope', '$location', 'Account', sessionBarController]);
 
 function sessionBarController($scope, $location, Account) {
 
     $scope.profile = {};
 
-    console.log('session bar');
     Account.getProfile(function(profile) {
         $scope.profile = profile;
     });
-
-    $scope.login = function() {
-
-    }
 
     $scope.logout = function() {
         console.log('do logout');
         Account.logout();
         $location.url('/');
-    }
+    };
+
+    /*
+    $scope.login = function() {
+
+    };
+
 
     $scope.signup = function() {
-    }
+    };
 
     $scope.reset =  function() {
-    }
+    };
 
     $scope.unlock =  function() {
-        $location.url('/')
-    }   
+        $location.url('/');
+    };   
+    */
 
 }
 

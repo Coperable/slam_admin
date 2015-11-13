@@ -118,7 +118,7 @@ angular.module('app.services', [])
             $auth.logout();
             $rootScope.account = false;
             this.broadcast();
-            $location.url('/')
+            $location.url('/');
         },
         getStatus: function() {
             return $http.get(api_host+'/api/me/status');

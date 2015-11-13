@@ -7,7 +7,6 @@
             var routes, setRoutes;
 
             routes = [
-                'dashboard',
                 'slam/regions/list',
                 'slam/sliders/list',
                 'slam/users/list',
@@ -49,6 +48,13 @@
                 templateUrl: 'views/slam/account/signin.html',
                 resolve: {
                     skipIfLoggedIn: skipIfLoggedIn
+                }
+            })
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'views/dashboard.html',
+                resolve: {
+                    loginRequired: loginRequired
                 }
             })
             .state('region-view', {

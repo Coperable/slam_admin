@@ -19,8 +19,8 @@
 
         <div class="profile-info">
             <ul class="list-unstyled list-inline">
-                <li><span class="btn" ng-click="showParticipants()"><i class="fa fa-users"></i> Usuarios <span class="text-muted">(63)</span></span></li>
-                <li><span class="btn" ng-click="showVideos()"><i class="fa fa-video-camera"></i> Videos <span class="text-muted">(39)</span></span></li>
+                <li><span class="btn" ng-click="showParticipants()"><i class="fa fa-users"></i> Participantes <span class="text-muted">({{competition.users.length}})</span></span></li>
+                <li><span class="btn" ng-click="showVideos()"><i class="fa fa-video-camera"></i> Videos <span class="text-muted">({{competition.videos.length}})</span></span></li>
                 <li><span class="btn" ng-click="showCups()"><i class="fa fa-bookmark"></i> Copas y Menciones </span> </li>
             </ul>
         </div>
@@ -96,58 +96,72 @@
         <div class="panel-header">
             <h2 class="section-header">Videos</h2>
             <span class="btn btn-primary pull-right" ng-show="!search_videos" ng-click="showSearch()">Agregar Videos</span>
+            <div class="row" ng-show="search_videos">
+                <div class="form-group col-md-8">
+                    <label class="sr-only" for="searchinput">Búsqueda Videos</label>
+                    <input type="text" class="form-control col-md-12" id="searchinput" ng-model="query" placeholder="Ingresá palabras claves" ng-enter="search()">
+                </div>
+                <span class="btn btn-primary" ng-click="search()">Buscar</span>
+                <span class="btn btn-default" ng-click="cancelSearch()">Cancelar</span>
+            </div>
+
         </div>
         <div class="panel-body">
-            <div class="row" ng-show="search_videos">
-                    <div class="form-group col-md-8">
-                        <label class="sr-only" for="searchinput">Búsqueda Videos</label>
-                        <input type="text" class="form-control col-md-12" id="searchinput" ng-model="query" placeholder="Ingresá palabras claves">
-                    </div>
-                    <span class="btn btn-primary" ng-click="search()">Buscar</span>
-                    <span class="btn btn-default" ng-click="cancelSearch()">Cancelar</span>
-                </form>   
-            </div>
-            <div class="col-md-12" ng-show="search_videos">
-                <div class="row">
-                    <div class="col-md-4" ng-repeat="video in videos_result.results" style="margin-bottom: 5px, cursor: pointer;">
-                        <div class="ih-item ih-material">
-                            <a ng-click="addVideo(video)">
-                                <div class="img">
-                                    <img ng-src="{{thumbnail(video)}}" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="info-mask bg-primary"></div>
-                                    <div class="info-content">
-                                        <div class="info-inner">
-                                            <h3>ID: {{video.id.videoId}}</h3>
-                                            <p>{{video.snippet.description}}</p>
-                                        </div>
+            <div class="row col-md-12" ng-show="search_videos">
+                <div class="col-md-4" ng-repeat="video in videos_result.results" style="padding-bottom: 5px, cursor: pointer;" ng-hide="video.picked">
+                    <div class="ih-item ih-material">
+                        <a ng-click="addVideo(video)">
+                            <div class="img">
+                                <img ng-src="{{thumbnail(video)}}" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="info-mask bg-primary"></div>
+                                <div class="info-content">
+                                    <div class="info-inner">
+                                        <h3>ID: {{video.id.videoId}}</h3>
+                                        <p>{{video.snippet.description}}</p>
                                     </div>
                                 </div>
-                            </a>
-                        </div>                            
-                    </div>
+                            </div>
+                        </a>
+                    </div>                            
                 </div>
+            </div>
+            <div class="row col-md-12 bg-dark">
+                <div class="col-md-{{editingParticipants ? '8' : '4'}}" ng-repeat="video in videos"  data-ng-controller="video-controller" ng-if="!video.removed">
+                    <div class="card bg-white">
+                        <div class="card-image">
+                            <img ng-src="{{video.thumb_path}}">
+                            <span class="card-title">{{video.name}}</span>
+                        </div>
+                        <div class="card-content" style="padding-top: 5px; min-height: 100px;">
+                            <div ng-hide="editingParticipants">
+                                <ul class="list-group">
+                                    <li ng-repeat="participant in video.users" class="list-group-item">
+                                        <span class="badge badge-danger" ng-click="removeParticipant(participant)" style="cursor: pointer;">X</span>
+                                        {{participant.username}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-show="editingParticipants">
+                                <div class="ui-typeahead">
+                                    <input type="text" 
+                                        ng-model="participant_selected" 
+                                        typeahead="participant for participant in participants_to_add | filter:$viewValue | limitTo:8" class="form-control" placeholder="Buscar...">
+                                </div> 
 
-            </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-4" ng-repeat="video in videos">
-                        <div class="card bg-white">
-                            <div class="card-image">
-                                <img ng-src="{{video.thumb_path}}">
-                                <span class="card-title">{{video.name}}</span>
                             </div>
-                            <div class="card-content">
-                                {{videos.participants}} 
-                            </div>
-                            <div class="card-action">
-                                <span class="btn btn-primary">Participantes</span>
-                            </div>
-                        </div>            
+                        </div>
+                        <div class="card-action">
+                            <span ng-hide="editingParticipants" class="btn btn-primary block-center" ng-click="assignParticipants()">Asignar</span>
+                            <span ng-hide="editingParticipants" class="btn btn-default block-center" ng-click="removeVideo()">Quitar</span>
+                            <span ng-show="editingParticipants" class="btn btn-success block-center" ng-click="addParticipant()">Agregar</span>
+                            <span ng-show="editingParticipants" class="btn btn-default block-center" ng-click="cancelEditing()">Cancelar</span>
+                        </div>
                     </div>            
+
                 </div>            
-            </div>
+            </div>            
 
         </div>
     </div>

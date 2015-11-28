@@ -2,10 +2,7 @@ node_modules
 .tmp
 .sass-cache
 client/bower_components
-landing/bower_components
-landing/css/main.css
-landing/vendors
-landing/index.html
+app/bower_components
 
 .DS_Store
 npm-debug.log

@@ -26,12 +26,12 @@
                             </div>
                             <div class="card-content">
                                 <a class="card-button pull-right" href="javascript:;">
-                                    <button class="btn btn-icon btn-icon-round btn-floating btn-danger">
-                                        <i class="fa fa-heart"></i>
+                                    <button class="btn btn-icon btn-icon-round btn-floating btn-default active">
+                                        <i class="fa fa-star"></i>
                                     </button>
                                 </a>
                                 <p>{{competition.description}}</p>
-                                <p>{{competition.event_date}}</p>
+                                <p>{{competition.event_date | moment: 'DD/MM/YYYY HH:mm'}}</p>
                             </div>
                             <div class="card-action">
                                 <span class="btn btn-primary" ng-click="view(competition.id)">Ver</span>

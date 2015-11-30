@@ -11,7 +11,6 @@ angular.module('app.competitions')
             id: $stateParams.competitionId
         }, function(data) {
             $scope.torneo = data;
-            $scope.event_date = moment($scope.torneo.event_date);
             $scope.setup_component();
         });
 
@@ -114,12 +113,6 @@ angular.module('app.competitions')
 }])
 .controller('competitions-list', ['$scope', '$http', '$state', 'api_host', 'Competition', function($scope, $http, $state, api_host, Competition) {
    
-    /*
-    Competition.query(function(data) {
-        $scope.competitions = data;
-    });
-    */
-
     $scope.view = function(id) {
         console.log('view '+id);
         $state.go('competition-view', {
@@ -133,8 +126,6 @@ angular.module('app.competitions')
         }); 
     };
 
-
-
 }])
 .controller('competition-view', ['$scope', '$window', 'Competition', '$location', '$state', '$stateParams', function($scope, $window, Competition, $location, $state, $stateParams) {
     $scope.competition = {};
@@ -147,13 +138,20 @@ angular.module('app.competitions')
 
     console.log('competition view');
 
-    Competition.get({
-        id: $stateParams.competitionId
-    }, function(data) {
-        $scope.competition = data;
-        $scope.participants = data.users;
-        $scope.videos = $scope.competition.videos;
-    });
+    $scope.fetchCompetition = function() {
+        Competition.get({
+            id: $stateParams.competitionId
+        }, function(data) {
+            $scope.competition = data;
+            $scope.participants = data.users;
+            $scope.videos = $scope.competition.videos;
+            $scope.mentions = $scope.competition.mentions;
+            $scope.cups = $scope.competition.cups;
+        });
+    };
+
+    $scope.fetchCompetition();
+
 
     $scope.showParticipants = function() {
         console.log('click in participants');
@@ -308,13 +306,105 @@ angular.module('app.competitions')
  
 
 }])
+.controller('competition-cups', ['$scope', 'logger', 'Competition', 'Cup', function($scope, logger, Competition, Cup) {
 
-.controller('competition-cups', ['$scope', 'Competition', function($scope, Competition) {
-    $scope.mentions = [];
+    $scope.cup = new Cup({});
+    $scope.editingCup = false;
+
+    $scope.newCup = function() {
+        $scope.editingCup = true;
+        $scope.cup = new Cup({
+            competition_id:  $scope.competition.id
+        });
+    };
+
+    $scope.editCup = function(cup) {
+        $scope.cup = new Cup(cup);
+        $scope.editingCup = true;
+    };
+
+    $scope.canSubmit = function() {
+        return $scope.cup_form.$valid;
+    };
+
+    $scope.revert = function() {
+        $scope.cup = new Cup({});
+        $scope.editingCup = false;
+    };
+
+    $scope.submitForm = function() {
+        if($scope.cup.id) {
+            $scope.cup.$update(function() {
+                logger.logSuccess("La Copa fue actualizada con éxito!"); 
+                $scope.editingCup = false;
+                $scope.fetchCompetition();
+
+            }).catch(function(response) {
+                logger.logError(response.message); 
+
+            });
+        } else {
+            $scope.cup.$save(function() {
+                logger.logSuccess("La copa fue creada con éxito!"); 
+                $scope.editingCup = false;
+                $scope.fetchCompetition();
+            }).catch(function(response) {
+                logger.logError(response.message); 
+            });
+        }
+
+    };
 
 
-    console.log('competition cups');
 
+}])
+.controller('competition-mentions', ['$scope', 'logger', 'Competition', 'Mention', function($scope, logger, Competition, Mention) {
+    $scope.mention = new Mention({});
+    $scope.editingMention = false;
+
+    $scope.newMention = function() {
+        $scope.editingMention = true;
+        $scope.mention = new Mention({
+            competition_id:  $scope.competition.id
+        });
+    };
+
+    $scope.editMention = function(mention) {
+        $scope.mention = new Mention(mention);
+        $scope.editingMention = true;
+    };
+
+    $scope.canSubmit = function() {
+        return $scope.mention_form.$valid;
+    };
+
+    $scope.revert = function() {
+        $scope.mention = new Mention({});
+        $scope.editingMention = false;
+    };
+
+    $scope.submitForm = function() {
+        if($scope.mention.id) {
+            $scope.mention.$update(function() {
+                logger.logSuccess("La Mención fue actualizada con éxito!"); 
+                $scope.editingMention = false;
+                $scope.fetchCompetition();
+
+            }).catch(function(response) {
+                logger.logError(response.message); 
+
+            });
+        } else {
+            $scope.mention.$save(function() {
+                logger.logSuccess("La mención fue creada con éxito!"); 
+                $scope.editingMention = false;
+                $scope.fetchCompetition();
+            }).catch(function(response) {
+                logger.logError(response.message); 
+            });
+        }
+
+    };
 
 }]);
 

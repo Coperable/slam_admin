@@ -177,6 +177,20 @@ angular.module('app.services', [])
         }
     });
 }])
+.factory('Cup',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/cups/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
+.factory('Mention',['$resource', 'api_host', function($resource, api_host){
+    return $resource(api_host+'/api/mentions/:id', { id:'@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}])
 .factory('Color',['$resource', 'api_host', function($resource, api_host){
     return $resource(api_host+'/api/colors/:id', { id:'@id' }, {
         update: {

@@ -171,64 +171,123 @@
             <h2 class="section-header">Copas</h2>
         </div>
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-md-12" ng-hide="editingCup">
                 <table class="table table-bordered table-striped table-responsive">
                     <thead>
                         <tr>
                             <th><div class="th">
-                                Username
+                                Nombre
                             </div></th>
                             <th><div class="th">
-                                Apellido - Nombre
+                                Descripcion
                             </div></th>
                             <th><div class="th">
                                 
                             </div></th>
                             <th><div class="th">
-                                <span class="btn btn-primary " ng-click="addParticipant()">Agregar</span>
+                                <span class="btn btn-primary " ng-click="newCup()">Crear Nueva</span>
                             </div></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat="participant in participants">
-                            <td>{{participant.username}}</td>
-                            <td>{{participant.lastname}} {{participant.name}}</td>
-                            <td></td>
-                            <td><span class="btn btn-primary" ng-click="viewParticipant(participant.id)">Ver</span></td>
+                        <tr data-ng-repeat="cup in cups">
+                            <td>{{cup.name}}</td>
+                            <td>{{cup.description}}</td>
+                            <td>{{cup.icon}}</td>
+                            <td><span class="btn btn-primary" ng-click="editCup(cup.id)">Editar</span></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <footer class="table-footer">
-                    <div class="row">
-                        <div class="col-md-6 page-num-info">
-                            <span>
-                                Show 
-                                <select data-ng-model="numPerPage"
-                                        data-ng-options="num for num in numPerPageOpt"
-                                        data-ng-change="onNumPerPageChange()">
-                                </select> 
-                                entries per page
-                            </span>
-                        </div>
-                        <div class="col-md-6 text-right pagination-container">
-                            <pagination class="pagination-sm"
-                                        ng-model="currentPage"
-                                        total-items="filteredStores.length"
-                                        max-size="4"
-                                        ng-change="select(currentPage)"
-                                        items-per-page="numPerPage"
-                                        rotate="false"
-                                        previous-text="&lsaquo;" next-text="&rsaquo;"
-                                        boundary-links="true"></pagination>
-                        </div>
+            </div>
+            <div class="col-md-12" ng-show="editingCup">
+                <form name="cup_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                    <div class="form-group">
+                        <label for="">Nombre</label>
+                        <input  type="text" class="form-control" required data-ng-model="cup.name" >
                     </div>
-                </footer>
+                    <div class="form-group">
+                        <label for="">Descripción</label>
+                        <textarea class="form-control" rows="10" data-ng-model="cup.description"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            ui-wave
+                            class="btn btn-primary btn-w-md"
+                            data-ng-disabled="!canSubmit()"
+                            >Guardar</button>
+                    <button class="btn btn-default btn-w-md"
+                            ui-wave
+                            data-ng-click="revert()"
+                    >Cancelar</button>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="panel panel-primary" data-ng-controller="competition-mentions" ng-if="show_cups">
+        <div class="panel-header">
+            <h2 class="section-header">Menciones</h2>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" ng-hide="editingMention">
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                                Nombre
+                            </div></th>
+                            <th><div class="th">
+                                Descripcion
+                            </div></th>
+                            <th><div class="th">
+                                
+                            </div></th>
+                            <th><div class="th">
+                                <span class="btn btn-primary " ng-click="newMention()">Crear Nueva</span>
+                            </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="mention in mentions">
+                            <td>{{mention.name}}</td>
+                            <td>{{mention.description}}</td>
+                            <td>{{mention.icon}}</td>
+                            <td><span class="btn btn-primary" ng-click="editMention(mention)">Editar</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12" ng-show="editingMention">
+                <form name="mention_form" class="form-validation" novalidate data-ng-submit="submitForm()">
+                    <div class="form-group">
+                        <label for="">Nombre</label>
+                        <input  type="text" class="form-control" required data-ng-model="mention.name" >
+                    </div>
+                    <div class="form-group">
+                        <label for="">Descripción</label>
+                        <textarea class="form-control" rows="10" data-ng-model="mention.description"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            ui-wave
+                            class="btn btn-primary btn-w-md"
+                            data-ng-disabled="!canSubmit()"
+                            >Guardar</button>
+                    <button class="btn btn-default btn-w-md"
+                            ui-wave
+                            data-ng-click="revert()"
+                    >Cancelar</button>
+                </form>
             </div>
 
 
         </div>
     </div>
+ 
  
 </div>
 

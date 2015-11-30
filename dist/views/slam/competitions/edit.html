@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Descripción</label>
-                            <textarea class="form-control" rows="10" required data-ng-model="torneo.description"></textarea>
+                            <textarea class="form-control" rows="10" data-ng-model="torneo.description"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -40,23 +40,10 @@
                         <div class="form-group">
                             <label for="">Fecha Evento</label>
                             <input id="torneo_event_date" type="date" class="form-control" required>
-                            <!--div class="input-group ui-datepicker">
-                                <input type="text" 
-                                       class="form-control"
-                                       datepicker-popup="dd-MM-yyyy"
-                                       ng-model="torneo.event_date" 
-                                       is-open="opened" 
-                                       min-date="minDate" 
-                                       datepicker-options="dateOptions" 
-                                       date-disabled="disabled(date, mode)" 
-                                       ng-required="true" 
-                                       close-text="Close">
-                                <span class="input-group-addon" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></span>
-                            </div-->
                         </div>
                         <div class="form-group">
                             <label for="">Nombre Establecimiento</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.place" >
+                            <input  type="text" class="form-control" data-ng-model="torneo.place" >
                         </div>
                         <div class="form-group">
                             <label for="">Dirección</label>
@@ -73,34 +60,34 @@
                             <div class="col-md-6" ng-show="torneo.users_limit">
                                 <div class="form-group">
                                     <label for="">Cantidad Participantes</label>
-                                    <input  type="number" class="form-control" required data-ng-pattern="/^[0-9]{1,}$/" data-ng-model="torneo.users_amount" >
+                                    <input  type="number" ng-required="torneo.users_limit == 1" class="form-control" data-ng-pattern="/^[0-9]{1,}$/" data-ng-model="torneo.users_amount" >
                                 </div>
                             </div>
                         </div>  
                         <div class="form-group">
                             <label for="">Reglamento</label>
-                            <textarea class="form-control" rows="10" required data-ng-model="torneo.rules"></textarea>
+                            <textarea class="form-control" rows="10" data-ng-model="torneo.rules"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="">Hashtag</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.hashtag" placeholder="#slam123">
+                            <input  type="text" class="form-control" data-ng-model="torneo.hashtag" placeholder="#slam123">
                         </div>
                         <div class="form-group">
                             <label for="">Facebook ID</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.facebook" placeholder="slam.argentina">
+                            <input  type="text" class="form-control" data-ng-model="torneo.facebook" placeholder="slam.argentina">
                         </div>
                         <div class="form-group">
                             <label for="">Twitter ID</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.twitter" placeholder="@slam.argentina">
+                            <input  type="text" class="form-control" data-ng-model="torneo.twitter" placeholder="@slam.argentina">
                         </div>
                         <div class="form-group">
                             <label for="">Instagram ID</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.instagram" placeholder="@islam.insta">
+                            <input  type="text" class="form-control" data-ng-model="torneo.instagram" placeholder="@islam.insta">
                         </div>
                         <div class="form-group">
                             <label for="">Youtube Id</label>
-                            <input  type="text" class="form-control" required data-ng-model="torneo.youtube" placeholder="channel">
+                            <input  type="text" class="form-control" data-ng-model="torneo.youtube" placeholder="channel">
                         </div>
 
 

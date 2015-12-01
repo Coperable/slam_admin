@@ -119,7 +119,7 @@ angular.module('app.sliders')
 
 
 }])
-.controller('sliders-list', ['$scope', '$http', '$state', 'api_host', 'Slider', function($scope, $http, $state, api_host, Slider) {
+.controller('sliders-list', ['$scope', '$http', '$state', 'logger', 'api_host', 'Slider', function($scope, $http, $state, logger, api_host, Slider) {
    
     Slider.query(function(data) {
         $scope.sliders = data;
@@ -132,11 +132,16 @@ angular.module('app.sliders')
         }); 
     };
 
-    $scope.remove = function(id) {
-        console.log('view '+id);
-        $state.go('slider-view', {
-            sliderId: id
-        }); 
+    $scope.remove = function(slider_data) {
+        var slider = new Slider(slider_data);
+        slider.$remove(function() {
+            logger.logSuccess("El slider fue eliminado con éxito!"); 
+            $state.go('slider-list', {}, {reload: true}); 
+        }).catch(function(response) {
+            logger.logError(response.message); 
+        });
+
+
     };
 
     $scope.edit = function(id) {

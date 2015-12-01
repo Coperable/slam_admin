@@ -11,8 +11,7 @@
                 'slam/sliders/list',
                 'slam/users/list',
                 'slam/participants/list',
-                'slam/users/edit',
-
+                'slam/users/edit'
             ];
 
             setRoutes = function(route) {
@@ -89,6 +88,13 @@
             .state('region-edit', {
                 url: '/region-edit/:regionId',
                 templateUrl: 'views/slam/regions/edit.html',
+                resolve: {
+                    loginRequired: loginRequired
+                }
+            })
+            .state('slider-list', {
+                url: '/slider-list',
+                templateUrl: 'views/slam/sliders/list.html',
                 resolve: {
                     loginRequired: loginRequired
                 }

@@ -3,7 +3,7 @@
 
     angular.module('app.users')
         .controller('users-list', ['$scope', '$window', '$state', 'User', usersList])
-        .controller('users-edit', ['$scope', '$state', 'User', usersEdit])
+        .controller('users-edit', ['$scope', '$state', 'logger', 'User', usersEdit])
         .controller('users-view', ['$scope', '$window', 'User', '$location', '$state', '$stateParams', '$http', 'logger', 'Role', 'Region', 'Account', 'api_host', usersView]);
 
     function usersList($scope, $window, $state, User) {
@@ -24,7 +24,7 @@
 
     }
 
-    function usersEdit($scope, $state, User) {
+    function usersEdit($scope, $state, logger, User) {
         $scope.user = new User({});
 
         $scope.canSubmit = function() {
@@ -37,23 +37,29 @@
 
         $scope.submitForm = function() {
             $scope.user.$save(function() {
+                logger.logSuccess("Usuario creado"); 
                 $state.go('user-view', {
                     userId: $scope.user.id
                 }); 
             }).catch(function(response) {
-                console.log('error: '+response);
+                logger.logError("Error al crear usuario, verifique los datos"); 
             });
         };
     }
 
     function usersView($scope, $window, User, $location, $state, $stateParams, $http, logger, Role, Region, Account, api_host) {
         $scope.user = {};
-        $scope.account = Account;
         $scope.competitions = [];
+        $scope.account = Account;
         $scope.roles = [];
         $scope.regions = [];
         $scope.isRoleCollapsed = true;
         $scope.isRegionCollapsed = true;
+        $scope.change_password = false;
+
+        $scope.changePassword = function() {
+            $scope.change_password = true;
+        };
 
         $scope.canSubmit = function() {
             return $scope.user_form.$valid;
@@ -66,6 +72,21 @@
             $scope.fetchRoles();
             $scope.fetchRegions();
         });
+
+        $scope.submitForm = function() {
+            if($scope.user.id == $scope.account.profile_id) {
+                $http.put(api_host+'/api/me', $scope.user).success(function(data) {
+                    logger.logSuccess("Tus datos actualizados"); 
+                });
+
+            } else {
+                $scope.user.$update(function() {
+                    logger.logSuccess("Usuario actualizado"); 
+                }).catch(function(response) {
+                    logger.logError("Error al actualizar usuario, verifique los datos"); 
+                });
+            }
+        };
 
 
         $scope.fetchRoles = function() {
@@ -91,6 +112,7 @@
                 });
             });
         };
+
 
 
 
